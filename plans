@@ -1,0 +1,8 @@
+hffm_solution
+
+This is the base class of solution objects. Initially, solutions (derived types that is) will encapsulate some simple functionality:
+
+1) copying a solution (essentially deep copy)
+2) freeing a solution
+3) varying a solution
+4) measuring the error on a solution
