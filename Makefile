@@ -3,6 +3,7 @@ CFLAGS=-g
 
 CXX_TESTS=\
 hffm_solution_test.h \
+hffm_rand_test.h \
 
 OBJS=\
 hffm_solution.o \
