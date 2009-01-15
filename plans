@@ -6,3 +6,17 @@ This is the base class of solution objects. Initially, solutions (derived types 
 2) freeing a solution
 3) varying a solution
 4) measuring the error on a solution
+
+
+random number generators
+
+hffm_rand_load("mersenne twister");
+hffm_rand_default_seed(); // read time, read dev random, entropy, internet
+hffm_rand_small_seed(long seed);
+
+size_t hffm_rand_seed_len();
+void hffm_rand_seed(char *seed);
+
+
+uint32_t hffm_rand_uint32()
+

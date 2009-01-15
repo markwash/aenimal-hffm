@@ -8,6 +8,7 @@ hffm_rand_test.h \
 OBJS=\
 hffm_solution.o \
 hffm_mock_solution.o \
+hffm_rand.o \
 
 all: run_tests ${OBJS} 
 
