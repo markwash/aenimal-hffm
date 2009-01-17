@@ -10,6 +10,7 @@ OBJS=\
 hffm_solution.o \
 hffm_mock_solution.o \
 hffm_rand.o \
+hffm_perm.o \
 
 all: run_tests ${OBJS} 
 
