@@ -1,18 +1,33 @@
 #include "hffm_rand.h"
 
-#include <stdint.h>
-#include <sys/types.h>
+#include <string.h>
 #include <sys/time.h>
 
 static uint32_t Q[4096],c=362436;
+static size_t seed_len = 4096 * sizeof(uint32_t);
 
-void hffm_rand_init() {
+size_t hffm_rand_seed_len() {
+	return seed_len;
+}
+void hffm_rand_set_seed(const void *seed) {
+	memcpy((void *) &Q, seed, seed_len);
+	return;
+}
+const void *hffm_rand_get_seed() {
+	return (void *) &Q;
+}
+void hffm_rand_seed_from_uint32(uint32_t x) {
 	int i = 0; 
-	uint32_t x = 0;
 	for (i = 0; i < 4096; i++) {
 		Q[i] = x;
 		x=69069*x+362437;
 	}
+}
+void hffm_rand_seed_from_time() {
+	hffm_rand_seed_from_uint32(time(NULL));
+}
+void hffm_rand_seed_default() {
+	hffm_rand_seed_from_time();
 }
 
 uint32_t hffm_rand_uint32() {
@@ -24,4 +39,9 @@ uint32_t hffm_rand_uint32() {
 	c=(t>>32); x=t+c; if(x<c){x++;c++;}
 	return(Q[i]=r-x);
 }
-
+uint32_t hffm_rand_range(uint32_t start, uint32_t len) {
+	return start + hffm_rand_uint32() % len;
+}
+double hffm_rand_double() {
+	return 1.0 * hffm_rand_uint32() / 0x100000000LL;
+}

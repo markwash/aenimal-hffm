@@ -3,6 +3,7 @@
 
 extern "C" {
 #include "hffm_rand.h"
+#include "hffm_perm.h"
 }
 
 
@@ -15,7 +16,7 @@ class RandTestSuite : public CxxTest::TestSuite
 public:
 	void setUp()
 	{
-		hffm_rand_init();
+		hffm_rand_seed_default();
 	}
 	void tearDown()
 	{
@@ -69,6 +70,33 @@ public:
 		da = above / 10000.0 / 0xffffffff;
 		db = below / 10000.0 / 0xffffffff;
 		TS_ASSERT_DELTA(da, db, 0.01);
+	}
+	void test_rand_two_bit_completeness()
+	{
+		uint32_t r, num, comb = 32 * 31 / 2;
+		uint32_t perms[2];
+		uint32_t counts[comb][4];
+		uint32_t i, j;
+		for (i = 0; i < comb; i++) {
+			for (j = 0; j < 4; j++) {
+				counts[i][j] = 0;
+			}
+		}
+		for (i = 0; i < 100; i++) {
+			r = hffm_rand_uint32();
+			hffm_perm_init(perms, 2);
+			for (j = 0; j < comb; j++) {
+				num = (r >> perms[0]) & 1;
+				num += 2 * ((r >> perms[1]) & 1);
+				counts[j][num]++;
+				hffm_perm_next(perms, 2, 32);
+			}
+		}
+		for (i = 0; i < comb; i++) {
+			for (j = 0; j < 4; j++) {
+				TS_ASSERT_LESS_THAN(0, counts[i][j]);
+			}
+		}
 	}
 };
 
