@@ -12,6 +12,7 @@ struct mock_solution {
 	int generation;
 	int times_free_called;
 	int times_vary_called;
+	int times_accepted_called;
 	double last_vary_amt;
 	double error;
 };

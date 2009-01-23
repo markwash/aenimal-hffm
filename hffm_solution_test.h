@@ -57,5 +57,11 @@ public:
 		TS_ASSERT_EQUALS(msol2->generation, 1);
 		mock_solution_really_free(msol2);
 	}
+	void test_accepted()
+	{
+		TS_ASSERT_EQUALS(msol->times_accepted_called, 0);
+		hffm_solution_accepted(sol);
+		TS_ASSERT_EQUALS(msol->times_accepted_called, 1);
+	}
 };
 
